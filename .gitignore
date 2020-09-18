@@ -76,3 +76,5 @@ DirectoryA/**/DirectoryB/
 \#*#
 
 venv
+/static
+/media
