@@ -3,7 +3,7 @@
 import os
 import sys
 
-
+# `python manage.py help` to get the help commands 
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'realestate.settings')
