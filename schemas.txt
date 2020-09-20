@@ -1,0 +1,51 @@
+MODEL DATABASE PLANNING AND CONSIDERATIONS
+
+
+## LISTING
+id: INT
+realtor: INT (FOREIGN KEY)
+title: string
+address: string
+city: string
+state: string
+zipcode: string
+description: text
+price: INT
+bedrooms: INT
+bathrooms: float/INT
+garage: INT
+sqft: INT
+lot_size: float
+photo_main: string
+photo_1: string
+photo_2: string
+photo_3: string
+photo_4: string
+photo_5: string
+photo_6: string
+list_date: DATE
+is_published: boolean(deafult: true)
+
+## REATOR
+
+id: INT
+name: string
+photo: string
+description:text
+email: string
+phone: string
+is_mvp: boolean
+hire_date: date
+
+
+## CONTACT: any inquiry made to a property should be saved to the database CONTACT table
+
+id: INT
+user_id: INT
+listing: INT
+listing_id: INT
+name:string
+email:string
+phone:string
+message: TEXT
+contact_date: DATE
