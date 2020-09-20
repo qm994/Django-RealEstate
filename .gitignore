@@ -1,81 +1,52 @@
-# Lines starting with `#` are comments.
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
 
-# Ignore files called 'file.ext'
-file.ext
+# C extensions
+*.so
 
-# Comments can't be on the same line as rules!
-# The following line ignores files called 'file.ext # not a comment'
-file.ext # not a comment 
-
-# Ignoring files with full path.
-# This matches files in the root directory and subdirectories too.
-# i.e. otherfile.ext will be ignored anywhere on the tree.
-dir/otherdir/file.ext
-otherfile.ext
-
-# Ignoring directories
-# Both the directory itself and its contents will be ignored.
+# Distribution / packaging
 bin/
-gen/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
 
-# Glob pattern can also be used here to ignore paths with certain characters.
-# For example, the below rule will match both build/ and Build/
-[bB]uild/
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
 
-# Without the trailing slash, the rule will match a file and/or
-# a directory, so the following would ignore both a file named `gen`
-# and a directory named `gen`, as well as any contents of that directory
-bin
-gen
+# Unit test / coverage reports
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
 
-# Ignoring files by extension
-# All files with these extensions will be ignored in
-# this directory and all its sub-directories.
-*.apk
-*.class
+# Translations
+*.mo
 
-# It's possible to combine both forms to ignore files with certain
-# extensions in certain directories. The following rules would be
-# redundant with generic rules defined above.
-java/*.apk
-gen/*.class
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
 
-# To ignore files only at the top level directory, but not in its
-# subdirectories, prefix the rule with a `/`
-/*.apk
-/*.class
+# Rope
+.ropeproject
 
-# To ignore any directories named DirectoryA 
-# in any depth use ** before DirectoryA
-# Do not forget the last /, 
-# Otherwise it will ignore all files named DirectoryA, rather than directories
-**/DirectoryA/
-# This would ignore 
-# DirectoryA/
-# DirectoryB/DirectoryA/ 
-# DirectoryC/DirectoryB/DirectoryA/
-# It would not ignore a file named DirectoryA, at any level
+# Django stuff:
+*.log
+*.pot
 
-# To ignore any directory named DirectoryB within a 
-# directory named DirectoryA with any number of 
-# directories in between, use ** between the directories
-DirectoryA/**/DirectoryB/
-# This would ignore 
-# DirectoryA/DirectoryB/ 
-# DirectoryA/DirectoryQ/DirectoryB/ 
-# DirectoryA/DirectoryQ/DirectoryW/DirectoryB/
-
-# To ignore a set of files, wildcards can be used, as can be seen above.
-# A sole '*' will ignore everything in your folder, including your .gitignore file.
-# To exclude specific files when using wildcards, negate them.
-# So they are excluded from the ignore list:
-!.gitignore 
-
-# Use the backslash as escape character to ignore files with a hash (#)
-# (supported since 1.6.2.1)
-\#*#
-
-venv
-
+# Sphinx documentation
+docs/_build/
 .vscode
-/__pycache__
+venv
