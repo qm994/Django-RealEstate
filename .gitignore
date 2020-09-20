@@ -76,3 +76,6 @@ DirectoryA/**/DirectoryB/
 \#*#
 
 venv
+
+.vscode
+/__pycache__
