@@ -8,9 +8,11 @@ A Django backend and React frontend: Real Estate Analysis Application
 
 # DB Migration
 
-## 1)Init the database migration
- `python manage.py migrate`
-## 2)Start to migrate the changes
+## 1)Migrate the models to the `migrations` folder
  `python manage.py makemigrations`
+ 
+## 2)Migrate the changes to databse
+ `python manage.py migrate`
+ 
 ## 3)Show the sql query used to create tables
  `python manage.py sqlmigrate listings 0001`
