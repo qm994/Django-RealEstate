@@ -15,7 +15,7 @@ def index(request):
     }
     return render(request, template_name='listings/listings.html', context=context)
 
-def listing(request):
+def listing(request, listing_id):
     return render(request, template_name='listings/listing.html')
 
 def search(request):
