@@ -18,10 +18,10 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
+                    <a href="{% url 'index' %}">Home</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="listings.html">Listings</a>
+                    <a href="{% url 'listings' %}">Listings</a>
                 </li>
                 <li class="breadcrumb-item active">42 Drivewood Circle</li>
             </ol>
@@ -32,7 +32,7 @@
 <!-- Listing -->
 <section id="listing" class="py-4">
     <div class="container">
-        <a href="listings.html" class="btn btn-light mb-4">Back To Listings</a>
+        <a href="{% url 'listings' %}" class="btn btn-light mb-4">Back To Listings</a>
         <div class="row">
             <div class="col-md-9">
                 <!-- Home Main Image -->
