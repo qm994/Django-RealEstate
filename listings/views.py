@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpRequest
 from .models import Listing
 from django.core import serializers
@@ -22,7 +22,11 @@ def index(request):
     return render(request, template_name='listings/listings.html', context=context)
 
 def listing(request, listing_id):
-    return render(request, template_name='listings/listing.html')
+    listing = get_object_or_404(Listing, pk=listing_id)
+    context = {
+        'listing': listing
+    }
+    return render(request, template_name='listings/listing.html', context=context)
 
 def search(request):
     return render(request, template_name='listings/search.html')
