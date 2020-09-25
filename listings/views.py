@@ -2,14 +2,18 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from .models import Listing
 from django.core import serializers
-
+from django.core.paginator import Paginator
 # Create your views here.
 #Django uses request and response objects to pass state through the system.
 
 # The `template_name` will access the `templates` folder and this is setup in the coreapp settings.py file
 def index(request):
     listings = Listing.objects.all()
-    print(listings.values())
+
+    # paginator = Paginator(listings, per_page=3)
+    # page = request.GET.get('page')
+    # page_listings = paginator.get_page(page)
+    # print(paginator)
     context = {
         'listings': listings
     }
