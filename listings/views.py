@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpRequest
 from .models import Listing
 from django.core import serializers
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from listings.choices import bedroom_choices, price_choices, state_choices
 # Create your views here.
 #Django uses request and response objects to pass state through the system.
 
@@ -29,4 +30,9 @@ def listing(request, listing_id):
     return render(request, template_name='listings/listing.html', context=context)
 
 def search(request):
-    return render(request, template_name='listings/search.html')
+    context = {
+        'state_choices': state_choices,
+        'price_choices': price_choices,
+        'bedroom_choices': bedroom_choices
+    }
+    return render(request, template_name='listings/search.html', context=context)
