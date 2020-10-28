@@ -11,6 +11,8 @@
                 <i class="fas fa-user-plus"></i> Register</h4>
             </div>
             <div class="card-body">
+                <!-- alert here -->
+                {% include 'partials/_alerts.html' %}
                 <!-- action attribute specifies where to send the form data when form is submitted! -->
                 <form action="{% url 'register' %}" method="POST">
                     {% csrf_token %}
