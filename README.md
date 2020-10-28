@@ -16,3 +16,7 @@ A Django backend and React frontend: Real Estate Analysis Application
  
 ## 3)Show the sql query used to create tables
  `python manage.py sqlmigrate listings 0001`
+ 
+# How to update the static files?
+
+Firstly add/edit the static files in the core app `realestate` then run  `python manage.py collectstatic` to migrate the changes to the core statics folder!
