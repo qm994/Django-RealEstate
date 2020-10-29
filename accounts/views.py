@@ -7,9 +7,18 @@ from django.contrib.auth.models import User
 
 def login(request):
     if request.method == 'POST':
-        print('Submit the form!')
-        # login the user
-        pass
+        username= request.POST['username']
+        password = request.POST['password']
+
+        user = auth.authenticate(username=username, password=password)
+        if user is not None:
+            auth.login(request, user=user)
+            messages.success(request, 'You are now log in!')
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'Invalid Credentials!')
+            return redirect('login')
+            
     else:
         return render(request, template_name='accounts/login.html')
 
@@ -53,6 +62,7 @@ def register(request):
                     # (5) login after the register
                     # auth.login(request, user=user)
                     # messages.success(request, 'You are now log in!')
+                    # return redirect('index')    
                     # (5) or we can just save the user and dont log in
                     user.save()
                     messages.success(request, 'U are registered and can log in!')
