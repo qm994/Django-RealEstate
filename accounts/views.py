@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
+from contacts.models import Contacts
 # Create your views here.
 
 
@@ -70,8 +71,13 @@ def register(request):
         return render(request, template_name='accounts/register.html')
 
 def dashboard(request):
-    
-    return render(request, template_name='accounts/dashboard.html')
+    user_id = request.user.id
+    loggedInUserContacts = Contacts.objects.all().order_by('-contact_date').filter(user_id=user_id)
+
+    context = {
+        'contacts': loggedInUserContacts
+    }
+    return render(request, template_name='accounts/dashboard.html', context=context)
 
 def logout(request):
     if request.method == 'POST':
