@@ -29,5 +29,11 @@ Firstly add/edit the static files in the core app `realestate` then run  `python
 
 # Production Instance Summary
 
-VPS: Droplet Ubuntu 20.04 1GB/1CPU, 25GB Disk, 1000GB Transfer
+VPS: Droplet Ubuntu 20.04 1GB/1CPU, 25GB Disk, 1000GB Transfer;
+
+When we set the `DEBUG=True`, the nginx will take care of the static files;
+
+
+
+
 
