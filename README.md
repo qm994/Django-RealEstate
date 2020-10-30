@@ -27,3 +27,7 @@ Firstly add/edit the static files in the core app `realestate` then run  `python
 (1) `python manage.py startapp <app-name>`
 (2) add the new app to the core app settings.py under the `INSTALLED_APPS`
 
+# Production Instance Summary
+
+VPS: Droplet Ubuntu 20.04 1GB/1CPU, 25GB Disk, 1000GB Transfer
+
