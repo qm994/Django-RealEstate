@@ -8,13 +8,12 @@ A Django backend and React frontend: Real Estate Analysis Application
 
 # A few of python manage.py commands: notes here for memory purpose
 
-## 1)Migrate the models to the `migrations` folder
- `python manage.py makemigrations`
+## Migrate the changes to databse
+(1) `python manage.py makemigrations` -> Migrate the models to the `migrations` folder
+(2)`python manage.py migrate` -> Migrate the changes to database
+ (Whenever we change the models `models.py`, we need to run both)
  
-## 2)Migrate the changes to databse
- `python manage.py migrate`
- 
-## 3)Show the sql query used to create tables
+## Show the sql query used to create tables
  `python manage.py sqlmigrate listings 0001`
  
 ## How to update the static files?
@@ -22,4 +21,6 @@ A Django backend and React frontend: Real Estate Analysis Application
 Firstly add/edit the static files in the core app `realestate` then run  `python manage.py collectstatic` to migrate the changes to the core statics folder!
 
 ## start a new app
-python manage.py startapp <app-name>
+(1) `python manage.py startapp <app-name>`
+(2) add the new app to the core app settings.py under the `INSTALLED_APPS`
+
