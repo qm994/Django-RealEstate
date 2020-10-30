@@ -8,7 +8,7 @@ urlpatterns = [
     path('listings/', include('listings.urls')),
     # includes accept a full path python import module
     path('accounts/', include('accounts.urls')),
-    path('contact/', include('contacts.urls')),
+    path('contacts/', include('contacts.urls')),
     path('admin/', admin.site.urls)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
