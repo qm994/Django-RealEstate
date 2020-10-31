@@ -3,13 +3,14 @@ A Django backend and React frontend: Real Estate Analysis Application
 
 # TODO:
 
-Configure the send email functionality and currently the send email not working!
+Configure the send email functionality and currently the send email not working in inquiry not working;
+Containerized the app with docker;
+Build the Portfolio page about myself;
 
-# Planning:
-(1)First version of app will use the fake data then after the version1 will be expecting to have the data scraped from Trulia site history data as the source.
+OPTIONAL: Build scrapers for the app;
 
 
-# A few of python manage.py commands: notes here for memory purpose
+# 1. A few of python manage.py commands: notes here for memory purpose
 
 ## Migrate the changes to databse
 (1) `python manage.py makemigrations` -> Migrate the models to the `migrations` folder
@@ -27,7 +28,7 @@ Firstly add/edit the static files in the core app `realestate` then run  `python
 (1) `python manage.py startapp <app-name>`
 (2) add the new app to the core app settings.py under the `INSTALLED_APPS`
 
-# Production Instance Summary
+# 2. Production Instance Summary
 
 VPS: Droplet Ubuntu 20.04 1GB/1CPU, 25GB Disk, 1000GB Transfer;
 
