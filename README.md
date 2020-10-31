@@ -5,7 +5,9 @@ A Django backend and React frontend: Real Estate Analysis Application: http://ww
 
 Configure the send email functionality and currently the send email not working in inquiry not working;
 Containerized the app with docker;
+Write tests for the app;
 Build the Portfolio page about myself;
+
 
 OPTIONAL: Build scrapers for the app;
 
