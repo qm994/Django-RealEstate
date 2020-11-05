@@ -7,16 +7,28 @@ services:
       - POSTGRES_DB=realestate
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=zhang199711
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "5432:5432"
+
   web:
     build: .
     command: >
-      sh -c ' 
+      sh -c 'python manage.py wait_for_db &&
+             python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000'
     volumes:
       - .:/usr/src/code/
     ports:
-      - 8000:8000
-    env_file:
-      - ./.env
+      - "8000:8000"
+    # env_file:
+    #   - ./.env
+    environment:
+      - DB_HOST=db
+      - DB_NAME=realestate
+      - DB_USER=postgres
+      - DB_PASS=zhang199711
+    links:
+      - "db"
     depends_on:
       - db
