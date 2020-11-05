@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'realestate',
     'pages.apps.PagesConfig',
     'listings.apps.ListingsConfig',
     'realtors.apps.RealtorsConfig',

@@ -7,9 +7,9 @@ ENV PYTHONDONTWRITEBYTECODE 1
 # So the logs can always write to container logs and not get buffered at first place
 ENV PYTHONUNBUFFERED 1
 
-RUN mkdir /code
-WORKDIR /code 
-COPY requirements.txt /code/
+RUN mkdir /app
+WORKDIR /app
+COPY requirements.txt /app/
 
 RUN pip install --upgrade pip
 RUN apt-get update
@@ -18,5 +18,5 @@ RUN apt-get install -y python-dev python3-dev
 RUN apt-get install -y libpq-dev
 
 RUN pip install -r requirements.txt
-COPY . /code/
+COPY . /app/
 
