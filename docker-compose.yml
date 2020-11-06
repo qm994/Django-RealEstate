@@ -1,6 +1,13 @@
 #python manage.py wait_for_db &&
 version: "3.7"
 services:
+  
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - web
   db:
     image: postgres
     env_file:
@@ -38,3 +45,4 @@ services:
       - db
 volumes:
   postgres_data:
+  
