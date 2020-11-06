@@ -2,12 +2,6 @@
 version: "3.7"
 services:
 
-  nginx:
-    build: ./nginx
-    ports:
-      - 1337:80
-    depends_on:
-      - web
   db:
     env_file:
       - .env
@@ -23,10 +17,6 @@ services:
 
   web:
     command: gunicorn realestate.wsgi:application --bind 0.0.0.0:8000
-    # command: >
-    #   sh -c 'python manage.py wait_for_db &&
-    #          python manage.py migrate &&
-    #          python manage.py runserver 0.0.0.0:8000'
     volumes:
       - .:/usr/src/app/
     # remove the ports and add expose for prod so the 8000 only expose to the internal sevice
@@ -39,3 +29,12 @@ services:
       - DB_NAME=${POSTGRES_DB}
       - DB_USER=${POSTGRES_USER}
       - DB_PASS=${POSTGRES_PASSWORD}
+
+  nginx:
+    image: nginx:1.13
+    ports:
+      - 8000:80
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - web
