@@ -15,4 +15,5 @@ services:
 volumes:
   postgres_data:
   static_content:
+  media_content:
   

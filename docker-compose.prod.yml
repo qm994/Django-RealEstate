@@ -22,7 +22,9 @@ services:
              gunicorn realestate.wsgi:application --bind 0.0.0.0:8000'
       
     volumes:
+      # after the colon is the path in container not local project
       - static_content:/app/static/
+      - media_content:/app/media/
     # remove the ports and add expose for prod so the 8000 only expose to the internal sevice
     expose:
       - 8000
@@ -41,5 +43,6 @@ services:
     volumes:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
       - static_content:/static/
+      - media_content:/media/
     depends_on:
       - web
