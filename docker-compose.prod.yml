@@ -9,16 +9,20 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_HOST_AUTH_METHOD=trust
+     
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
 
   web:
-    command: gunicorn realestate.wsgi:application --bind 0.0.0.0:8000
+    command: >
+      sh -c 'python manage.py wait_for_db &&
+             python manage.py migrate &&
+             gunicorn realestate.wsgi:application --bind 0.0.0.0:8000'
+      
     volumes:
-      - .:/usr/src/app/
+      - static_content:/app/static/
     # remove the ports and add expose for prod so the 8000 only expose to the internal sevice
     expose:
       - 8000
@@ -36,5 +40,6 @@ services:
       - 8000:80
     volumes:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - static_content:/static/
     depends_on:
       - web
