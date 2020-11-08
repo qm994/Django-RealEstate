@@ -25,14 +25,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv('DJANGO_SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'realestate',
     'pages.apps.PagesConfig',
     'listings.apps.ListingsConfig',
     'realtors.apps.RealtorsConfig',
@@ -81,15 +82,27 @@ WSGI_APPLICATION = 'realestate.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'realestate',
-        'USER': 'postgres',
-        'PASSWORD': str(os.getenv('LOCAL_POSTGRES_PASSWORD')),
-        'HOST': 'localhost'
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'realestate',
+            'USER': 'postgres',
+            'PASSWORD': str(os.getenv('LOCAL_POSTGRES_PASSWORD')),
+            'HOST': 'localhost'
+        }
+    } 
+else:
+    {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            # these env comes from web service
+            'NAME': os.environ.get('DB_NAME'),
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASS'),
+            'HOST': os.environ.get('DB_HOST')
+        }
     }
-}
 
 
 # Password validation
