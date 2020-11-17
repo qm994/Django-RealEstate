@@ -132,7 +132,7 @@ USE_TZ = True
 
 # run `python manage.py collectstatic` will copy all the static files from STATICFILES_DIRS here
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = '/static/'
+STATIC_URL = 'http://storage.googleapis.com/django-realestate/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'realestate/static')
