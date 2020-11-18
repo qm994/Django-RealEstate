@@ -26,3 +26,6 @@ RUN pip install -r requirements.txt
 RUN apk del .tmp-build-deps
 COPY . /app/
 
+CMD gunicorn realestate.wsgi:application --bind 0.0.0.0:8000
+
+
