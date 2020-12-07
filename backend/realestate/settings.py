@@ -12,9 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv('DJANGO_SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = [os.environ.get('LOAD_BALANCER_IP', '127.0.0.1')]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0']
 
 
 # Application definition
@@ -65,7 +65,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'realestate.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -73,10 +72,11 @@ if DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'realestate',
-            'USER': 'postgres',
-            'PASSWORD': str(os.getenv('LOCAL_POSTGRES_PASSWORD')),
-            'HOST': 'localhost'
+            'NAME': os.environ.get('DB_NAME'),
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASS'),
+            'HOST': os.environ.get('DB_HOST'),
+            'PORT': '5432'
         }
     } 
 else:
@@ -132,7 +132,9 @@ USE_TZ = True
 
 # run `python manage.py collectstatic` will copy all the static files from STATICFILES_DIRS here
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = 'http://storage.googleapis.com/polls-storage-bucket/static/'
+print(STATIC_ROOT)
+STATIC_URL = '/static/'
+#STATIC_URL = 'http://storage.googleapis.com/polls-storage-bucket/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'realestate/static')

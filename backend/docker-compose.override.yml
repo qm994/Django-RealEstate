@@ -15,6 +15,8 @@ services:
       - "5432:5432"
 
   web:
+    depends_on: 
+      - db
     command: >
       sh -c 'python manage.py wait_for_db &&
              python manage.py migrate &&
