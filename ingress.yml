@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: polls-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      # The * character must follow a forward slash (/) and
+      # must be the last character in the pattern
+      - backend:
+          serviceName: polls-service
+          servicePort: 8080

@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: polls
+  labels:
+    app: polls
+spec:
+  replicas: 3
+  # selector: when deployment create the pods, it will actually created by the kubernetes master
+  # After the master create the pods, the deployment will ask: 'how do I know which of the pods are
+  # the one I want?' Then the match label here tells the deployment object which pods belong to it
+  selector:
+    matchLabels:
+      app: polls
+  template:
+    metadata:
+      labels:
+        app: polls
+    spec:
+      containers:
+        - name: polls-app
+          image: gcr.io/polls-296201/polls
+          imagePullPolicy: Always
+          # resources:
+          #   requests:
+          #     memory: "64Mi"
+          #     cpu: "250m"
+          #   limits:
+          #     memory: "128Mi"
+          #     cpu: "500m"
+          env:
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql
+                  key: password
+          ports:
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            periodSeconds: 10
+            timeoutSeconds: 60 
+            successThreshold: 1
+            failureThreshold: 3
+            initialDelaySeconds: 70
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            timeoutSeconds: 60 
+            successThreshold: 1
+            failureThreshold: 3
+            initialDelaySeconds: 70
+        
+        # container for cloudsql proxy
+        - image: gcr.io/cloudsql-docker/gce-proxy:1.16
+          name: cloudsql-proxy
+          # resources:
+          #   requests:
+          #     memory: "64Mi"
+          #     cpu: "250m"
+          #   limits:
+          #     memory: "128Mi"
+          #     cpu: "500m"
+          command: ["/cloud_sql_proxy", "--dir=/cloudsql",
+                    "-instances=polls-296201:us-east1:polls-instance=tcp:5432",
+                    "-credential_file=/secrets/cloudsql/credentials.json"]
+          # mount the volume from pods to container file system
+          volumeMounts:
+            - name: cloudsql-oauth-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+            - name: ssl-certs
+              mountPath: /etc/ssl/certs
+            - name: cloudsql
+              mountPath: /cloudsql
+ 
+      volumes:
+        - name: cloudsql-oauth-credentials
+          secret:
+            secretName: cloudsql-oauth-credentials
+        - name: ssl-certs
+          hostPath:
+            path: /etc/ssl/certs
+        - name: cloudsql
+          emptyDir: {}
+
+---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: polls
+# spec:
+#   type: NodePort
+#   ports:
+#   - name: polls-service
+#     port: 8080
+#     targetPort: 8080
+#     protocol: TCP
+#   selector:
+#     app: polls
+apiVersion: v1
+kind: Service
+metadata:
+  name: polls
+  labels:
+    app: polls
+spec:
+  type: LoadBalancer
+  selector:
+    app: polls
+  ports:
+  # here I use the name to expose the port 8080 to 80
+    - port: 8000 # <-- PORT TO CONNECT TO
+      targetPort: 8000 # <-- PORT LISTENING ON POD 
+      protocol: TCP
