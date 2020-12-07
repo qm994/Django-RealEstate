@@ -1,31 +1,25 @@
-# resource: https://docs.docker.com/compose/django/
-FROM python:3.8-alpine
+FROM gcr.io/google_appengine/python
 LABEL maintainer qm28@georgetown.edu
+
+# Create a virtualenv for the application dependencies.
+RUN virtualenv -p python3 /env
+ENV PATH /env/bin:$PATH
 
 #Prevents Python from writing pyc files to disc (equivalent to python -B option)#
 ENV PYTHONDONTWRITEBYTECODE 1
 # So the logs can always write to container logs and not get buffered at first place
 ENV PYTHONUNBUFFERED 1
 
-RUN mkdir /app
 WORKDIR /app
-COPY requirements.txt /app/
+ADD requirements.txt /app/requirements.txt
+RUN /env/bin/pip install --upgrade pip && /env/bin/pip install -r /app/requirements.txt
+ADD . /app
 
-RUN apk add --update --no-cache postgresql-client jpeg-dev zlib-dev
-RUN apk add --update --no-cache --virtual .tmp-build-deps \
-        gcc libc-dev linux-headers postgresql-dev
-
-# RUN pip install --upgrade pip
-# RUN apt-get update
-# RUN apt-get remove -y libpq5
-# RUN apt-get install -y python-dev python3-dev
-# RUN apt-get install -y libpq-dev
-
-RUN pip install -r requirements.txt
-
-RUN apk del .tmp-build-deps
-COPY . /app/
-
+EXPOSE 8000
 CMD gunicorn realestate.wsgi:application --bind 0.0.0.0:8000
+#CMD gunicorn -b :8000 realestate.wsgi:application --timeout 90 
+#CMD gunicorn realestate.wsgi:application --bind 0.0.0.0:8000
 
 
+
+ 

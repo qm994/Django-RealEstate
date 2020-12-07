@@ -6,15 +6,15 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# TODO: create the gke resource from the yml file
+# TODO: create the gke resource from the yml
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = str(os.getenv('DJANGO_SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
+ALLOWED_HOSTS = [os.environ.get('LOAD_BALANCER_IP', '127.0.0.1')]
 
 
 # Application definition
@@ -80,14 +80,16 @@ if DEBUG:
         }
     } 
 else:
-    {
+    DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            # these env comes from web service
-            'NAME': os.environ.get('DB_NAME'),
-            'USER': os.environ.get('DB_USER'),
-            'PASSWORD': os.environ.get('DB_PASS'),
-            'HOST': os.environ.get('DB_HOST')
+        # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
+        # 'ENGINE': 'django.db.backends.mysql' instead of the following.
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'realestate',
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
         }
     }
 
@@ -130,7 +132,7 @@ USE_TZ = True
 
 # run `python manage.py collectstatic` will copy all the static files from STATICFILES_DIRS here
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = 'http://storage.googleapis.com/django-realestate/static/'
+STATIC_URL = 'http://storage.googleapis.com/polls-storage-bucket/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'realestate/static')

@@ -19,8 +19,15 @@ spec:
     spec:
       containers:
         - name: polls-app
-          image: gcr.io/django-realestate/polls
+          image: gcr.io/polls-296201/polls
           imagePullPolicy: Always
+          # resources:
+          #   requests:
+          #     memory: "64Mi"
+          #     cpu: "250m"
+          #   limits:
+          #     memory: "128Mi"
+          #     cpu: "500m"
           env:
             - name: DATABASE_USER
               valueFrom:
@@ -33,13 +40,39 @@ spec:
                   name: cloudsql
                   key: password
           ports:
-            - containerPort: 8080
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            periodSeconds: 10
+            timeoutSeconds: 60 
+            successThreshold: 1
+            failureThreshold: 3
+            initialDelaySeconds: 70
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            timeoutSeconds: 60 
+            successThreshold: 1
+            failureThreshold: 3
+            initialDelaySeconds: 70
         
         # container for cloudsql proxy
         - image: gcr.io/cloudsql-docker/gce-proxy:1.16
           name: cloudsql-proxy
+          # resources:
+          #   requests:
+          #     memory: "64Mi"
+          #     cpu: "250m"
+          #   limits:
+          #     memory: "128Mi"
+          #     cpu: "500m"
           command: ["/cloud_sql_proxy", "--dir=/cloudsql",
-                    "-instances=django-realestate:us-central1:myinstance=tcp:5432",
+                    "-instances=polls-296201:us-east1:polls-instance=tcp:5432",
                     "-credential_file=/secrets/cloudsql/credentials.json"]
           # mount the volume from pods to container file system
           volumeMounts:
@@ -62,6 +95,19 @@ spec:
           emptyDir: {}
 
 ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: polls
+# spec:
+#   type: NodePort
+#   ports:
+#   - name: polls-service
+#     port: 8080
+#     targetPort: 8080
+#     protocol: TCP
+#   selector:
+#     app: polls
 apiVersion: v1
 kind: Service
 metadata:
@@ -70,9 +116,10 @@ metadata:
     app: polls
 spec:
   type: LoadBalancer
-  ports:
-  - port: 80
-    targetPort: 8080
   selector:
     app: polls
-# [END service]
+  ports:
+  # here I use the name to expose the port 8080 to 80
+    - port: 8000 # <-- PORT TO CONNECT TO
+      targetPort: 8000 # <-- PORT LISTENING ON POD 
+      protocol: TCP
