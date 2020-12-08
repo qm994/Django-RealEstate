@@ -7,7 +7,7 @@ from listings.choices import bedroom_choices, price_choices, state_choices
 
 from listings.serializers import ListingSerializer
 from rest_framework import generics
-
+from rest_framework.renderers import JSONRenderer
 class CreateListingsView(generics.ListAPIView):
     """ list all the listings """
     serializer_class = ListingSerializer
