@@ -4,6 +4,14 @@ from .models import Listing
 from django.core import serializers
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from listings.choices import bedroom_choices, price_choices, state_choices
+
+from listings.serializers import ListingSerializer
+from rest_framework import generics
+
+class CreateListingsView(generics.ListAPIView):
+    """ list all the listings """
+    serializer_class = ListingSerializer
+    queryset = Listing.objects.all()
 # Create your views here.
 #Django uses request and response objects to pass state through the system.
 
