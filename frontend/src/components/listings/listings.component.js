@@ -1,27 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Listing } from '../listing/listing.component';
-const Listings = () => {
-    const [listings, getListings] = useState([]);
+import { fetchListingsAsync } from '../../redux/listings/listings.actions';
 
+const Listings = ({ listingItems, fetchListingsAsync }) => {
     useEffect(() => {
-        axios({
-            method: 'get',
-            url: 'http://0.0.0.0:8000/listings/get',
-            responseType: 'json'
-        }).then(
-            (res) => { 
-                console.log(res.data)
-                getListings(res.data)
-            },
-            error => console.log('erro for access listings url', error)
-        )
-    }, [getListings])
+        fetchListingsAsync()
+    }, [fetchListingsAsync])
 
     return (
         <div>
             {
-                listings.map(({ id, ...otherCollectionProps }) => 
+                listingItems.map(({ id, ...otherCollectionProps }) => 
                     <Listing key={id} { ...otherCollectionProps } />
                 )
             }
@@ -29,4 +19,16 @@ const Listings = () => {
     )
 }
 
-export default Listings;
+const mapStateToProps = (state) => {
+    return (
+        {
+            listingItems: state.listings.listingItems
+        }
+    )
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchListingsAsync: () => dispatch(fetchListingsAsync())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Listings);
